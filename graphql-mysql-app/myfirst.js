@@ -1,7 +1,7 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const { createPool } = require('mysql2/promise');
-
+require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
@@ -21,10 +21,10 @@ const resolvers = {
   Query: {
     users: async () => {
       const connection = await createPool({
-        host: '52.8.52.89', // Replace with your MySQL host
-        user: 'quickbase',    // Replace with your MySQL username
-        password: 'm2n1shlko', // Replace with your MySQL password
-        database: 'qbdb3', // Replace with your MySQL database name
+        host: process.env.HOST, // Replace with your MySQL host
+        user: process.env.USER,    // Replace with your MySQL username
+        password: process.env.PASSWORD, // Replace with your MySQL password
+        database: process.env.DATABASE, // Replace with your MySQL database name
       });
 
       const [rows] = await connection.query('SELECT * FROM qbtable1');
